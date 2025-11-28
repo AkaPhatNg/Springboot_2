@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Sinh Viên</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        h2 {
+            color: #1a4f78;
+            border-bottom: 2px solid #5aa5d6;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        /* --- Bảng --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #e0e6ed;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #5aa5d6;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        /* Hiệu ứng di chuột trên dòng */
+        tbody tr:hover {
+            background-color: #eaf4ff;
+        }
+
+        /* Cột cuối cùng (Address) */
+        td:nth-child(4) {
+            font-weight: 500;
+        }
+
+        /* Thao tác (Actions) */
+        .actions {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e0f0ff;
+            border-radius: 6px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 8px 15px;
+            border: none;
+            background-color: #1a4f78;
+            color: white;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #0d3656;
+        }
+    </style>
+</head>
+<body>
+<h2>🧑‍🎓 Danh Sách Sinh Viên</h2>
+
+<div class="actions">
+    <a th:href="@{/}">Trở về Bảng Điểm</a>
+    <a th:href="@{/student/add}">+ Thêm Sinh Viên</a>
+    <a th:href="@{/score/add}">+ Thêm Điểm</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Student Code</th>
+        <th>Full Name</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.studentId}">1</td>
+        <td th:text="${student.studentCode}">2007B20</td>
+        <td th:text="${student.fullName}">Nguyen Van B</td>
+        <td th:text="${student.address}">TP. HCM</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

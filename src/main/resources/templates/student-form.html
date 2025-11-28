@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Student</title>
+    <style>
+        /* CSS đơn giản cho form */
+    </style>
+</head>
+<body>
+<h2>📝 Thêm Sinh Viên Mới</h2>
+<p th:if="${param.success}" style="color: green;">Thêm sinh viên thành công!</p>
+
+<form th:action="@{/student/save}" th:object="${student}" method="post">
+    <div>
+        <label for="studentCode">Student Code:</label>
+        <input type="text" id="studentCode" th:field="*{studentCode}" required/>
+    </div>
+    <div>
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" th:field="*{fullName}" required/>
+    </div>
+    <div>
+        <label for="address">Address:</label>
+        <input type="text" id="address" th:field="*{address}"/>
+    </div>
+    <button type="submit">+ Student</button> <a href="/">Quay lại trang chính</a>
+</form>
+</body>
+</html>

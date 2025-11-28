@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Score</title>
+</head>
+<body>
+<h2>📊 Nhập Điểm Môn Học</h2>
+<p th:if="${param.success}" style="color: green;">Nhập điểm thành công!</p>
+
+<form th:action="@{/score/save}" method="post">
+    <div>
+        <label for="studentId">Student Name:</label>
+        <select id="studentId" name="studentId" required>
+            <option value="">-- Select Student --</option>
+            <option th:each="student : ${students}"
+                    th:value="${student.studentId}"
+                    th:text="${student.fullName} + ' (' + ${student.studentCode} + ')'">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="subjectId">Subject Name:</label>
+        <select id="subjectId" name="subjectId" required>
+            <option value="">-- Select Subject --</option>
+            <option th:each="subject : ${subjects}"
+                    th:value="${subject.subjectId}"
+                    th:text="${subject.subjectName} + ' (' + ${subject.subjectCode} + ')'">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="score1">Score 1 (30%):</label>
+        <input type="number" id="score1" name="score1" step="0.1" min="0" max="10" required/>
+    </div>
+    <div>
+        <label for="score2">Score 2 (70%):</label>
+        <input type="number" id="score2" name="score2" step="0.1" min="0" max="10" required/>
+    </div>
+    <button type="submit">+ Score</button> <a href="/">Quay lại trang chính</a>
+</form>
+</body>
+</html>
