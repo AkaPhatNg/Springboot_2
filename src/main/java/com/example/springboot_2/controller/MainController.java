@@ -29,32 +29,25 @@ public class MainController {
     @Autowired
     private SubjectRepository subjectRepository;
 
-    /**
-     * TRANG 1: / (Bảng Điểm chi tiết - Chỉ hiển thị bản ghi đã có điểm)
-     */
+    // --- HIỂN THỊ DỮ LIỆU ---
+
     @GetMapping("/")
     public String scoreList(Model model) {
-        // Lấy danh sách điểm số (StudentScore)
         List<StudentScore> scores = scoreService.findAllScores();
         model.addAttribute("scores", scores);
         model.addAttribute("scoreService", scoreService);
-        return "score-list"; // Chúng ta sẽ đổi tên score-list.html thành score-list.html
+        return "score-list";
     }
 
-    /**
-     * TRANG 2: /students (Danh sách TẤT CẢ sinh viên - Kể cả chưa có điểm)
-     */
     @GetMapping("/students")
     public String studentList(Model model) {
-        // Lấy danh sách TẤT CẢ sinh viên
         List<Student> students = studentService.findAll();
         model.addAttribute("students", students);
-        return "student-only-list"; // Trả về file HTML mới
+        return "student-only-list";
     }
 
-    /**
-     * QUESTION 1: Insert Student
-     */
+    // --- THÊM MỚI SINH VIÊN ---
+
     @GetMapping("/student/add")
     public String showStudentForm(Model model) {
         model.addAttribute("student", new Student());
@@ -63,14 +56,37 @@ public class MainController {
 
     @PostMapping("/student/save")
     public String saveStudent(@ModelAttribute("student") Student student) {
+        // Xử lý cả Thêm mới và Sửa/Cập nhật
         studentService.save(student);
-        // Chuyển hướng về trang danh sách sinh viên mới
         return "redirect:/students";
     }
 
+    // --- SỬA SINH VIÊN (ENDPOINT MỚI) ---
+
     /**
-     * QUESTION 2: Insert Score
+     * Hiển thị form để sửa thông tin sinh viên, sử dụng lại student-form.html
      */
+    @GetMapping("/student/edit")
+    public String showEditForm(@RequestParam("id") Integer studentId, Model model) {
+        // 1. Tìm sinh viên hiện tại theo ID (sử dụng phương thức findById mới)
+        Student student = studentService.findById(studentId);
+
+        // 2. Đưa đối tượng sinh viên đó vào model
+        model.addAttribute("student", student);
+
+        return "student-form"; // Trả về form cũ để hiển thị dữ liệu đã có
+    }
+
+    // --- XÓA SINH VIÊN ---
+
+    @GetMapping("/student/delete")
+    public String deleteStudent(@RequestParam("id") Integer studentId) {
+        studentService.deleteStudent(studentId);
+        return "redirect:/students";
+    }
+
+    // --- THÊM ĐIỂM ---
+
     @GetMapping("/score/add")
     public String showScoreForm(Model model) {
         List<Student> students = studentService.findAll();
@@ -89,7 +105,6 @@ public class MainController {
             @RequestParam("score2") BigDecimal score2) {
 
         scoreService.save(studentId, subjectId, score1, score2);
-        // Chuyển hướng về trang bảng điểm chính (score list)
         return "redirect:/";
     }
 }

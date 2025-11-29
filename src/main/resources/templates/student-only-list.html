@@ -78,6 +78,26 @@
         .actions a:hover {
             background-color: #0d3656;
         }
+
+        /* --- CSS MỚI: Dành cho cả nút SỬA và XÓA (edit-btn & delete-btn) --- */
+        .edit-btn, .delete-btn {
+            /* Sử dụng màu xanh navy đậm, đồng nhất với nút chính */
+            background-color: #1a4f78 !important;
+            color: white !important;
+            text-decoration: none;
+
+            /* Giữ kích thước nhỏ hơn để phù hợp với cột bảng */
+            padding: 5px 10px !important;
+            font-size: 0.9em !important;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 5px; /* Thêm khoảng cách giữa 2 nút */
+        }
+        .edit-btn:hover, .delete-btn:hover {
+            /* Màu xanh đậm hơn khi di chuột */
+            background-color: #0d3656 !important;
+        }
+        /* --- KẾT THÚC CSS NÚT HÀNH ĐỘNG --- */
     </style>
 </head>
 <body>
@@ -96,6 +116,7 @@
         <th>Student Code</th>
         <th>Full Name</th>
         <th>Address</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -104,6 +125,19 @@
         <td th:text="${student.studentCode}">2007B20</td>
         <td th:text="${student.fullName}">Nguyen Van B</td>
         <td th:text="${student.address}">TP. HCM</td>
+
+        <td>
+            <a th:href="@{/student/edit(id=${student.studentId})}"
+               class="edit-btn">
+                Sửa
+            </a>
+
+            <a th:href="@{/student/delete(id=${student.studentId})}"
+               onclick="return confirm('Bạn có chắc chắn muốn xóa sinh viên ' + '[[${student.fullName}]]' + '? Thao tác này sẽ xóa VĨNH VIỄN cả điểm số liên quan.');"
+               class="delete-btn">
+                Xóa
+            </a>
+        </td>
     </tr>
     </tbody>
 </table>
